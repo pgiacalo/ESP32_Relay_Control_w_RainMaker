@@ -1,0 +1,6 @@
+# Cursor Initial Prompt
+
+The goal of this project is to create an ESP32 application using Espressif Rainmaker that can open or close 2 different garage doors. The ESP32 will control 2 different normally open relays that will be connected in parallel to wired, pushbutton controllers inside the garage. The ESP32 will produce the effect of pushing each of the buttons, via the relays and the ESP Rainmaker application. The resulting effect will be to control the garage doors from anywhere in the world. As a starting point, I want to use the Espressif example code found locally here:  /Users/phil/esp/esp-rainmaker/examples/switch. The goal is to make very minimal changes to this example code, in order to closely follow the patterns in the example. The ESP32 will use 2 different GPIO pins. Each pin will be held high by default and will be sent low for 0.5 seconds when the user pushes the associated button in the ESP Rainmaker application. When a pin goes LOW, the relay will close: this will trigger the garage door motion (i.e., to open or close). 
+
+Let me perform all of the build, flash and monitor operations manually from the terminal. 
+Never perform these operations for me but tell me if a new build is ready and necessary.
