@@ -65,7 +65,7 @@ static esp_err_t write_cb(const esp_rmaker_device_t *device, const esp_rmaker_pa
         
         // Determine which relay this is for and set relay state accordingly
         if (device == relay1_device) {
-            ESP_LOGI(TAG, "Setting Relay 1 to %s", val.val.b ? "CLOSED" : "OPEN");
+            ESP_LOGI(TAG, "Setting Relay 1 to %s", val.val.b ? "ON" : "OFF");
             app_driver_set_relay1_state(val.val.b);
             
             // Update RainMaker state to reflect actual relay state
@@ -73,7 +73,7 @@ static esp_err_t write_cb(const esp_rmaker_device_t *device, const esp_rmaker_pa
                 esp_rmaker_device_get_param_by_name(relay1_device, ESP_RMAKER_DEF_POWER_NAME),
                 esp_rmaker_bool(val.val.b));
         } else if (device == relay2_device) {
-            ESP_LOGI(TAG, "Setting Relay 2 to %s", val.val.b ? "CLOSED" : "OPEN");
+            ESP_LOGI(TAG, "Setting Relay 2 to %s", val.val.b ? "ON" : "OFF");
             app_driver_set_relay2_state(val.val.b);
             
             // Update RainMaker state to reflect actual relay state

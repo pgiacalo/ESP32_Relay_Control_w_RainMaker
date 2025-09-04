@@ -48,15 +48,15 @@ static void app_indicator_set(bool state)
 static void app_indicator_init(void)
 {
     ws2812_led_init();
-    // Show indicator based on relay states (ON if either relay is closed)
+    // Show indicator based on relay states (ON if either relay is ON)
     app_indicator_set(g_relay1_state || g_relay2_state);
 }
 
 void app_driver_init()
 {
     // Set GPIO pins to default states immediately to prevent relay activation during startup
-    gpio_set_level(RELAY_1_GPIO, !DEFAULT_RELAY_1_STATE);  // Invert since HIGH = relay open
-    gpio_set_level(RELAY_2_GPIO, !DEFAULT_RELAY_2_STATE);  // Invert since HIGH = relay open
+    gpio_set_level(RELAY_1_GPIO, DEFAULT_RELAY_1_STATE);  // LOW = relay OFF, HIGH = relay ON
+    gpio_set_level(RELAY_2_GPIO, DEFAULT_RELAY_2_STATE);  // LOW = relay OFF, HIGH = relay ON
     
     /* Configure GPIO pins for both relays */
     gpio_config_t io_conf = {
@@ -74,9 +74,9 @@ void app_driver_init()
     io_conf.pin_bit_mask = ((uint64_t)1 << RELAY_2_GPIO);
     gpio_config(&io_conf);
     
-    // Set initial states again (HIGH = relay open, LOW = relay closed) - double safety
-    gpio_set_level(RELAY_1_GPIO, !g_relay1_state);  // Invert since HIGH = relay open
-    gpio_set_level(RELAY_2_GPIO, !g_relay2_state);  // Invert since HIGH = relay open
+    // Set initial states again (LOW = relay OFF, HIGH = relay ON) - double safety
+    gpio_set_level(RELAY_1_GPIO, g_relay1_state);
+    gpio_set_level(RELAY_2_GPIO, g_relay2_state);
     
     // Add a small delay to ensure pins are stable
     vTaskDelay(pdMS_TO_TICKS(100));
@@ -87,15 +87,15 @@ void app_driver_init()
 int IRAM_ATTR app_driver_set_relay1_state(bool state)
 {
     ESP_LOGI(TAG, "Relay 1: Setting relay to %s (GPIO %d %s)", 
-             state ? "CLOSED" : "OPEN", 
+             state ? "ON" : "OFF", 
              RELAY_1_GPIO, 
-             state ? "LOW" : "HIGH");
+             state ? "HIGH" : "LOW");
     
     // Update global state
     g_relay1_state = state;
     
-    // Set GPIO level (HIGH = relay open, LOW = relay closed)
-    gpio_set_level(RELAY_1_GPIO, !state);
+    // Set GPIO level (LOW = relay OFF, HIGH = relay ON)
+    gpio_set_level(RELAY_1_GPIO, state);
     
     // Update indicator
     app_indicator_set(g_relay1_state || g_relay2_state);
@@ -106,15 +106,15 @@ int IRAM_ATTR app_driver_set_relay1_state(bool state)
 int IRAM_ATTR app_driver_set_relay2_state(bool state)
 {
     ESP_LOGI(TAG, "Relay 2: Setting relay to %s (GPIO %d %s)", 
-             state ? "CLOSED" : "OPEN", 
+             state ? "ON" : "OFF", 
              RELAY_2_GPIO, 
-             state ? "LOW" : "HIGH");
+             state ? "HIGH" : "LOW");
     
     // Update global state
     g_relay2_state = state;
     
-    // Set GPIO level (HIGH = relay open, LOW = relay closed)
-    gpio_set_level(RELAY_2_GPIO, !state);
+    // Set GPIO level (LOW = relay OFF, HIGH = relay ON)
+    gpio_set_level(RELAY_2_GPIO, state);
     
     // Update indicator
     app_indicator_set(g_relay1_state || g_relay2_state);

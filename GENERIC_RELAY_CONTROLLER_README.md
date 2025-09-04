@@ -52,8 +52,8 @@ This is a **generic dual relay controller** built on the ESP32 platform using ES
 ## How It Works
 
 ### **Relay Control Logic**
-1. **GPIO HIGH** = Relay OPEN (no connection)
-2. **GPIO LOW** = Relay CLOSED (connection made)
+1. **GPIO HIGH** = Relay ON (connection made)
+2. **GPIO LOW** = Relay OFF (no connection)
 
 ### **State Management**
 - Each relay maintains its current state in memory
@@ -62,8 +62,8 @@ This is a **generic dual relay controller** built on the ESP32 platform using ES
 - States persist across reboots (using default values)
 
 ### **Default Behavior**
-- **Power On**: Both relays start in OFF state (GPIO HIGH)
-- **Safety**: Relays are open by default to prevent accidental activation
+- **Power On**: Both relays start in OFF state (GPIO LOW)
+- **Safety**: Relays are off by default to prevent accidental activation
 - **Indicator**: LED shows when any relay is active
 
 ## Setup Instructions
@@ -156,15 +156,15 @@ Edit `main/app_priv.h`:
 ### **Default States**
 Edit `main/app_priv.h`:
 ```c
-#define DEFAULT_DOOR_1_STATE  false   // true = ON, false = OFF
-#define DEFAULT_DOOR_2_STATE  false   // true = ON, false = OFF
+#define DEFAULT_RELAY_1_STATE  false   // true = ON, false = OFF
+#define DEFAULT_RELAY_2_STATE  false   // true = ON, false = OFF
 ```
 
 ### **Device Names**
 Edit `main/app_main.c`:
 ```c
-door1_device = esp_rmaker_device_create("Custom Name 1", ESP_RMAKER_DEVICE_SWITCH, NULL);
-door2_device = esp_rmaker_device_create("Custom Name 2", ESP_RMAKER_DEVICE_SWITCH, NULL);
+relay1_device = esp_rmaker_device_create("Custom Name 1", ESP_RMAKER_DEVICE_SWITCH, NULL);
+relay2_device = esp_rmaker_device_create("Custom Name 2", ESP_RMAKER_DEVICE_SWITCH, NULL);
 ```
 
 ## Future Enhancements

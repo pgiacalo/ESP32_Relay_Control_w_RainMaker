@@ -14,9 +14,9 @@
 #define RELAY_1_GPIO    15  // First relay control output
 #define RELAY_2_GPIO    19  // Second relay control output
 
-// Default states (HIGH = relay open, LOW = relay closed)
-#define DEFAULT_RELAY_1_STATE  false   // LOW by default (relay closed)
-#define DEFAULT_RELAY_2_STATE  false   // LOW by default (relay closed)
+// Default states (LOW = relay OFF, HIGH = relay ON)
+#define DEFAULT_RELAY_1_STATE  false   // LOW by default (relay OFF)
+#define DEFAULT_RELAY_2_STATE  false   // LOW by default (relay OFF)
 
 extern esp_rmaker_device_t *relay1_device;
 extern esp_rmaker_device_t *relay2_device;
