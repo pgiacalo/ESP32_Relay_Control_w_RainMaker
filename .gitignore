@@ -1,0 +1,24 @@
+# ESP-IDF build artifacts
+build/
+sdkconfig.old
+
+# Managed components (automatically managed by ESP-IDF)
+managed_components/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
